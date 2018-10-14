@@ -11,7 +11,7 @@ using CppAD::AD;
 // 10, 0.1  -> Car stays within the track and moves fine
 size_t N = 10;
 double dt = 0.1;
-double ref_v = 70;
+double ref_v = 60;
 
 // This value assumes the model presented in the classroom is used.
 //
