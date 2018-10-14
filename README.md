@@ -2,6 +2,9 @@
 Self-Driving Car Engineer Nanodegree Program
 Objective of the project is to compute the actuator values(steering angle and throttle ) of a car and drive it through a track. 
 ---
+[//]: # (Image References)
+
+[image1]: images/mpc.png "MPC Image"
 
 ## Rubric Points
 
