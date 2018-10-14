@@ -1,5 +1,39 @@
 # CarND-Controls-MPC
 Self-Driving Car Engineer Nanodegree Program
+Objective of the project is to compute the actuator values(steering angle and throttle ) of a car and drive it through a track. 
+---
+
+## Rubric Points
+
+### Student describes their model in detail. This includes the state, actuators and update equations.
+The Kinematic model of the car defines the state of the car using x and y co-ordinates, steering angle(psi) and velocity of the car(v). In addition to this, the cross-track error and psi error are also considered as part of the vehicle state. 
+
+The actuators used are throttle and steering angle.
+
+State -> [x, y, psi, v, ate, epsi ]
+
+#### Model
+The model defines the next state based on the current state after time step(dt). Image below defines the formula used for the model(in addition to depicting the MPC algorithm)
+[image1]
+
+#### Constraints
+The constraints on the actuators are defined in the model definition. Steering angles are defined to be with in the degrees range [-25, 25] and throttle values are in the range [-1, 1] where -1 represents full brake and +1 represents full throttle
+
+#### Cost Function
+Cost function defines the different set of parameters that helps to minimise the errors and hence MPC is used as an optimisation problem. For e.g. to minimise the CTE, it is used as part of the cost function with a corresponding weightage. Similarly, the cost function uses psi error, difference of current velocity and a reference velocity etc. In order to avoid quick turns, the multiplication of velocity and steering angle is also used in the cost function.
+
+#### Solver
+IPOPT, short for "Interior Point OPTimizer, pronounced I-P-Opt", is a software library for large scale nonlinear optimization of continuous systems. This library is used to optimise the above model and return the solution with the optimal values of steering angle and throttle. It also returns the next set of values for x and y which is used to show as a green line in the simulator.
+
+### Student discusses the reasoning behind the chosen N (timestep length) and dt (elapsed duration between timesteps) values. Additionally the student details the previous values tried.
+The value of N and dt used are 10 and 0.1 respectively. With these values the vehicle moved around the track without much wobbling and stayed with in the track through out. Other values resulted either in more wobbling or the car moved out of the track. For e.g. [10, 0.08] -> Car wobbles on curves and for [10, 0.2]  -> Car wobbles, crossed the track and moved out
+
+### A polynomial is fitted to waypoints. If the student preprocesses waypoints, the vehicle state, and/or actuators prior to the MPC procedure it is described.
+The waypoints are preprocessed and transformed to the vehicle’s co-orindate system(see main.cpp  lines 106-114). This simplifies all the computations as the vehicle is at origin and the psi is zero degree.
+The converted way points are used to fit a 3rd degree polynomial and poly fit was used on the coefficients to get the CTE and psi error. (See main.cpp lines 122-124)
+
+### The student implements Model Predictive Control that handles a 100 millisecond latency. Student provides details on how they deal with latency.
+The original kinematic equations to compute steering angle and acceleration uses the previous step. To account for latency, this equation is modified(see MPC.cpp lines 107-110) to consider one more step prior to that.
 
 ---
 
