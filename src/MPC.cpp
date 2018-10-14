@@ -6,6 +6,9 @@
 using CppAD::AD;
 
 // TODO: Set the timestep length and duration
+// 10, 0.08 -> Car wobbles on curves
+// 10, 0.2  -> Car wobbles crossed the track and moved out
+// 10, 0.1  -> Car stays within the track and moves fine
 size_t N = 10;
 double dt = 0.1;
 double ref_v = 70;
@@ -53,23 +56,23 @@ class FG_eval {
 
 	// The part of the cost based on the reference state.
 	for (int t = 0; t < N; t++) {
-	  fg[0] += 3000*CppAD::pow(vars[cte_start + t], 2);
-	  fg[0] += 3000*CppAD::pow(vars[epsi_start + t], 2);
+	  fg[0] += 1000*CppAD::pow(vars[cte_start + t], 2);
+	  fg[0] += 1000*CppAD::pow(vars[epsi_start + t], 2);
 	  fg[0] += CppAD::pow(vars[v_start + t] - ref_v, 2);
 	}
 
 	// Minimize the use of actuators.
 	for (int t = 0; t < N - 1; t++) {
-	  fg[0] += 5*CppAD::pow(vars[delta_start + t], 2);
-	  fg[0] += 5*CppAD::pow(vars[a_start + t], 2);
+	  fg[0] += 75*CppAD::pow(vars[delta_start + t], 2);
+	  fg[0] += 75*CppAD::pow(vars[a_start + t], 2);
 //	  Penalty to steering angle and speed to avoid quick turns at high speed
-	  fg[0] += 700*CppAD::pow(vars[v_start + t] * vars[delta_start + t], 2);
+	  fg[0] += 25*CppAD::pow(vars[v_start + t] * vars[delta_start + t], 2);
 	}
 
 	// Minimize the value gap between sequential actuations.
 	for (int t = 0; t < N - 2; t++) {
-	  fg[0] += 200*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
-	  fg[0] += 10*CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
+	  fg[0] += 25*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
+	  fg[0] += 5*CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
 	}
 
 
