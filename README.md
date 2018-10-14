@@ -1,10 +1,10 @@
 # CarND-Controls-MPC
 Self-Driving Car Engineer Nanodegree Program
-Objective of the project is to compute the actuator values(steering angle and throttle ) of a car and drive it through a track. 
----
-[//]: # (Image References)
 
-[image1]: images/mpc.png "MPC Image"
+Objective of the project is to compute the actuator values(steering angle and throttle ) of a car and drive it through a track. 
+
+---
+
 
 ## Rubric Points
 
@@ -17,7 +17,8 @@ State -> [x, y, psi, v, ate, epsi ]
 
 #### Model
 The model defines the next state based on the current state after time step(dt). Image below defines the formula used for the model(in addition to depicting the MPC algorithm)
-[image1]
+
+<img src="images/mpc.png" alt="MPC Image" />
 
 #### Constraints
 The constraints on the actuators are defined in the model definition. Steering angles are defined to be with in the degrees range [-25, 25] and throttle values are in the range [-1, 1] where -1 represents full brake and +1 represents full throttle
